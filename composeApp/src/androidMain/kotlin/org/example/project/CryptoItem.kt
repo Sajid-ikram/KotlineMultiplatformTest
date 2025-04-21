@@ -16,7 +16,8 @@ import androidx.compose.ui.unit.sp
 import org.example.project.model.CryptoData
 
 @Composable
-fun CryptoItem(crypto: CryptoData) {
+fun CryptoItem(crypto: CryptoData, onClick: () -> Unit) {
+
     val price = crypto.priceUsd?.toDoubleOrNull()?.let { "%.2f".format(it) } ?: "N/A"
     val change = crypto.changePercent24Hr?.toDoubleOrNull()
     val changeFormatted = change?.let { "%.2f".format(it) } ?: "N/A"
@@ -27,6 +28,7 @@ fun CryptoItem(crypto: CryptoData) {
     }
 
     Surface(
+
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 6.dp)
@@ -36,30 +38,37 @@ fun CryptoItem(crypto: CryptoData) {
         shape = RoundedCornerShape(12.dp),
         elevation = 2.dp
     ) {
-        Row(
+        Box(
             modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+                .fillMaxWidth()
+                .padding(8.dp)
+                .clickable { onClick() }
         ) {
-            Column {
+            Row(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column {
+                    Text(
+                        text = "${crypto.name} (${crypto.symbol})",
+                        style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold)
+                    )
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(
+                        text = "Price: $$price",
+                        style = MaterialTheme.typography.body2.copy(color = Color.Gray)
+                    )
+                }
                 Text(
-                    text = "${crypto.name} (${crypto.symbol})",
-                    style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold)
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                Text(
-                    text = "Price: $$price",
-                    style = MaterialTheme.typography.body2.copy(color = Color.Gray)
+                    text = "$changeFormatted%",
+                    color = changeColor,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 18.sp
                 )
             }
-            Text(
-                text = "$changeFormatted%",
-                color = changeColor,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 18.sp
-            )
         }
     }
 }

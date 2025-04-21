@@ -12,12 +12,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 import org.example.project.model.CryptoData
 import org.example.project.network.CryptoRepository
 
 @Composable
-fun CryptoHomeScreen() {
+fun CryptoHomeScreen(navController: NavHostController) {
+
     var cryptos by remember { mutableStateOf<List<CryptoData>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
@@ -57,7 +59,9 @@ fun CryptoHomeScreen() {
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     items(cryptos) { crypto ->
-                        CryptoItem(crypto)
+                        CryptoItem(crypto) {
+                            navController.navigate("chart")
+                        }
                     }
                 }
             }

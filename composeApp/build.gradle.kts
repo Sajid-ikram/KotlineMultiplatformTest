@@ -47,6 +47,7 @@ kotlin {
             implementation("io.github.thechance101:chart:1.1.0")
 
             implementation("androidx.navigation:navigation-compose:2.8.9")
+            implementation("network.chaintech:cmpcharts:2.0.2")
 
 
 

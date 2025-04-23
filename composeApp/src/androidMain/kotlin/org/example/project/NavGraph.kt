@@ -1,4 +1,5 @@
 package org.example.project
+import MonteCarloSimulationPage
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,7 +14,10 @@ fun AppNavigation() {
             CryptoHomeScreen(navController)
         }
         composable("chart") {
-            CryptoChartScreen()
+            CryptoChartScreen(navController)
+        }
+        composable("MonteCarloSimulationPage") {
+            MonteCarloSimulationPage(navController)
         }
     }
 }

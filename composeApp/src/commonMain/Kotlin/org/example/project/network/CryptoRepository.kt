@@ -12,7 +12,7 @@ object CryptoRepository {
 
     suspend fun fetchCryptos(): CryptocurrencyModel {
         val response: HttpResponse = client.get(
-            "https://rest.coincap.io/v3/assets?apiKey=f955f902fe4e99cc913e39a0cd56a74f71d5740bf9c957516af3a21269610464"
+            "https://rest.coincap.io/v3/assets?apiKey=b6ee03780f6acadd929335235924e61c844785ad513ac283a109894fc814469d"
         )
         val body = response.bodyAsText()
         return json.decodeFromString(CryptocurrencyModel.serializer(), body)

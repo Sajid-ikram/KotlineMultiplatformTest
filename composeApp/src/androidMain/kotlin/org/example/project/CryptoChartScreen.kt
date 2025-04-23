@@ -1,16 +1,22 @@
 package org.example.project
 
+import android.graphics.Point
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import kotlinx.coroutines.*
 import kotlin.math.sin
 import kotlin.random.Random
@@ -20,7 +26,7 @@ import com.aay.compose.lineChart.model.LineType
 import com.aay.compose.baseComponents.model.GridOrientation
 
 @Composable
-fun CryptoChartScreen() {
+fun CryptoChartScreen(navController: NavHostController) {
     val random = remember { Random(System.currentTimeMillis()) }
     val basePrice = remember { 30000.0 }
     var x by remember { mutableStateOf(0.0) }
@@ -62,6 +68,12 @@ fun CryptoChartScreen() {
     Scaffold(
         topBar = {
             TopAppBar(
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color.White)
+                    }
+                },
+                modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars),
                 title = {
                     Text(
                         text = "Cryptocurrencies",
@@ -77,7 +89,19 @@ fun CryptoChartScreen() {
                 elevation = 4.dp
             )
         },
-        backgroundColor = Color(0xFF121212)
+        backgroundColor = Color(0xFF121212),
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    // TODO: Replace with navigation or action
+                    println("FAB clicked! Navigate to prediction screen.")
+                    navController.navigate("MonteCarloSimulationPage")
+                },
+                backgroundColor = Color(0xFF4CAF50) // Green like in Flutter
+            ) {
+                Text("Predict", color = Color.White)
+            }
+        }
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -113,7 +137,8 @@ fun CryptoChartScreen() {
                 yAxisRange = 8,
                 gridOrientation = GridOrientation.VERTICAL,
                 yAxisStyle = TextStyle(fontSize = 12.sp, color = Color.LightGray),
-                xAxisStyle = TextStyle(fontSize = 12.sp, color = Color.LightGray)
+                xAxisStyle = TextStyle(fontSize = 12.sp, color = Color.LightGray),
+
             )
         }
     }
@@ -127,3 +152,5 @@ fun generateInitialData(basePrice: Double, volatility: Double): MutableList<Pair
         x to price
     }
 }
+
+
